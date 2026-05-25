@@ -2,7 +2,7 @@
 
 A modern neural network built from scratch in Rust, for **learning** — not speed.
 
-It is inspired by Andrej Karpathy's "most atomic" pure-Python GPT, but deliberately strips away the
+It is inspired by [Andrej Karpathy's "most atomic" pure-Python GPT](https://gist.github.com/karpathy/8627fe009c40f57531cb18360106ce95), but deliberately strips away the
 transformer machinery (attention, KV-cache, transformer positional embeddings). What's left is the
 part that is *the algorithm*: a scalar reverse-mode **autograd engine**, a few **layers**,
 **normalization**, a **softmax cross-entropy** loss, and the **Adam** optimizer. These are wired
