@@ -12,6 +12,9 @@ learns to babble brand-new names.
 ## Run it
 
 ```sh
+# install the git hooks once per clone
+prek install
+
 # fetch the dataset (Karpathy's list of names) once
 mkdir -p data && curl -L -o data/names.txt \
   https://raw.githubusercontent.com/karpathy/makemore/988aa59/names.txt
