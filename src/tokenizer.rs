@@ -15,9 +15,13 @@ pub struct Tokenizer {
 impl Tokenizer {
     /// Build a tokenizer from the documents, collecting the sorted set of unique characters.
     pub fn from_docs(docs: &[String]) -> Self {
-        let set: BTreeSet<char> = docs.iter().flat_map(|d| d.chars()).collect();
         Tokenizer {
-            chars: set.into_iter().collect(),
+            chars: docs
+                .iter()
+                .flat_map(|d| d.chars())
+                .collect::<BTreeSet<_>>()
+                .into_iter()
+                .collect(),
         }
     }
 
