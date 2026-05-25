@@ -1,0 +1,49 @@
+# Git hooks managed by prek (https://github.com/j178/prek) — a fast,
+# dependency-free reimplementation of pre-commit. Enable them with `prek install`.
+#
+# This file uses the standard pre-commit schema, so it stays compatible with
+# pre-commit itself if you ever switch back.
+
+# A single `prek install` wires up both the pre-commit and pre-push hooks below.
+default_install_hook_types: [pre-commit, pre-push]
+
+repos:
+  # Generic file-hygiene checks. `repo: builtin` runs prek's native Rust
+  # implementations, so no Python interpreter or virtualenv is needed.
+  - repo: builtin
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: mixed-line-ending
+      - id: check-merge-conflict
+      - id: check-added-large-files
+      - id: check-yaml
+      - id: check-toml
+      - id: detect-private-key
+
+  # Rust checks run via the project's pinned toolchain (rust-toolchain.toml).
+  # These mirror .github/workflows/ci.yml so failures surface before pushing.
+  - repo: local
+    hooks:
+      - id: cargo-fmt
+        name: cargo fmt
+        entry: cargo fmt --all --
+        language: system
+        types: [rust]
+        pass_filenames: false
+
+      - id: cargo-clippy
+        name: cargo clippy
+        entry: cargo clippy --all-targets -- -D warnings
+        language: system
+        types: [rust]
+        pass_filenames: false
+
+      # The test suite is heavier, so it runs on push rather than on every commit.
+      - id: cargo-test
+        name: cargo test
+        entry: cargo test
+        language: system
+        types: [rust]
+        pass_filenames: false
+        stages: [pre-push]
