@@ -75,12 +75,12 @@ mod tests {
     fn descends_quadratic() {
         let x = Value::new(5.0);
         let mut opt = Adam::new(vec![x.clone()]);
-        for _ in 0..500 {
+        for _ in 0..250 {
             let loss = x.clone() * x.clone();
             loss.backward();
             opt.step(0.1);
             opt.zero_grad();
         }
-        assert!(x.data().abs() < 1e-2, "x did not converge: {}", x.data());
+        assert!(x.data().abs() < 1e-6, "x did not converge: {}", x.data());
     }
 }
